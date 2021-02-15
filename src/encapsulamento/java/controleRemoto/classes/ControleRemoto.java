@@ -3,14 +3,14 @@ package encapsulamento.java.controleRemoto.classes;
 import encapsulamento.java.controleRemoto.interfaces.Controlador;
 
 public class ControleRemoto implements Controlador {
-    private Integer volume = 50;
-    private boolean ligado = false;
-    private boolean tocando = false;
+    private Integer volume;
+    private boolean ligado;
+    private boolean tocando;
 
-    public ControleRemoto(Integer volume, boolean ligado, boolean tocando) {
-        this.volume = volume;
-        this.ligado = ligado;
-        this.tocando = tocando;
+    public ControleRemoto() {
+        this.volume = 50;
+        this.ligado = false;
+        this.tocando = false;
     }
 
     public Integer getVolume() {
@@ -39,51 +39,74 @@ public class ControleRemoto implements Controlador {
 
     @Override
     public void ligar() {
-
+        setLigado(true);
     }
 
     @Override
     public void desligar() {
-
+        setLigado(false);
     }
 
     @Override
     public void abrirMenu() {
+        System.out.println("-------- MENU ------");
+        System.out.println("Está Ligado? "+this.isLigado());
+        System.out.println("Está tocando?"+this.isTocando());
+        System.out.print("Volume "+this.getVolume()+" ");
+        for(int i = 0; i <= getVolume(); i+=10){
+            System.out.print("| ");
+        }
 
     }
 
     @Override
     public void fecharMenu() {
-
+        System.out.println("Fechando Menu...");
     }
 
     @Override
     public void maisVolume() {
-
+        if(this.isLigado()){
+            setVolume(getVolume()+5);
+        }else{
+            System.out.println("Impossivel aumentar volume!");
+        }
     }
 
     @Override
     public void menosVolume() {
-
+        if(this.isLigado()){
+            setVolume(getVolume()-5);
+        }else{
+            System.out.println("Impossivel reduzir volume");
+        }
     }
 
     @Override
     public void ligarMudo() {
-
+        if(this.isLigado() && this.getVolume() > 0 ){
+            setVolume(0);
+        }
     }
 
     @Override
     public void desligarMudo() {
-
+        if(this.isLigado() && this.getVolume() == 0){
+            setVolume(50);
+        }
     }
 
     @Override
     public void play() {
-
+        if(this.isLigado() && !this.isTocando()){
+            this.setTocando(true);
+        }
     }
 
     @Override
     public void pause() {
-
+        if(this.isLigado() && this.isTocando()){
+            this.setTocando(false);
+        }
     }
 }
